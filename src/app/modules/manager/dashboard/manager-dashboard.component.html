@@ -1,0 +1,223 @@
+<app-header></app-header>
+
+<!-- Pending Expenses Card -->
+<mat-card class="pending-dashboard-card">
+  <mat-card-header>
+    <mat-card-title>Pending Expenses</mat-card-title>
+    <mat-card-subtitle *ngIf="!isLoading()">
+      {{ getPendingExpenses().length }} pending approvals
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Loading State -->
+    <div *ngIf="isLoading()" class="state-container">
+      <mat-spinner diameter="40"></mat-spinner>
+      <p>Loading expenses...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="!isLoading() && error()" class="state-container error">
+      <mat-icon>error_outline</mat-icon>
+      <h3>Error loading expenses</h3>
+      <p>{{ error() }}</p>
+      <button mat-raised-button color="warn" (click)="loadAllExpenses()">
+        <mat-icon>refresh</mat-icon>
+        Retry
+      </button>
+    </div>
+
+    <!-- Pending Table -->
+    <table *ngIf="!isLoading() && !error() && getPendingExpenses().length > 0" 
+           mat-table 
+           [dataSource]="getPendingExpenses()">
+      
+      <!-- Employee Column -->
+      <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef>Employee</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.employeeName }}</td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.description }}</td>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let expense">
+          {{ expense.amount | currency:'EUR':'symbol':'1.2-2' }}
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let expense">
+          {{ expense.date | date:'dd/MM/yyyy' }}
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let expense">
+          <div class="action-buttons">
+            <button mat-icon-button color="primary" (click)="approveExpense(expense)">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="rejectExpense(expense)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="pendingColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: pendingColumns;"></tr>
+    </table>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading() && !error() && getPendingExpenses().length === 0" class="state-container empty">
+      <mat-icon>check_circle_outline</mat-icon>
+      <h3>No pending expenses</h3>
+      <p>All expenses have been approved</p>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Approved Expenses Section -->
+<mat-card class="approved-dashboard-card">
+  <mat-card-header>
+    <mat-card-title>Approved Expenses</mat-card-title>
+    <mat-card-subtitle>
+      {{ getApprovedExpenses().length }} approved
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <table *ngIf="getApprovedExpenses().length > 0" 
+           mat-table 
+           [dataSource]="getApprovedExpenses()">
+      
+      <!-- Employee Column -->
+      <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef>Employee</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.employeeName }}</td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.description }}</td>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let expense">
+          {{ expense.amount | currency:'EUR':'symbol':'1.2-2' }}
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let expense">
+          {{ expense.date | date:'dd/MM/yyyy' }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let expense">
+          <span class="status-approved">
+            <mat-icon>check_circle</mat-icon>
+            Approved
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="approvedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: approvedColumns;"></tr>
+    </table>
+
+    <div *ngIf="getApprovedExpenses().length === 0" class="empty-state">
+      <mat-icon>check_circle_outline</mat-icon>
+      <p>No approved expenses yet</p>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<!-- Rejected Expenses Card -->
+<mat-card class="rejected-dashboard-card">
+  <mat-card-header>
+    <mat-card-title>Rejected Expenses</mat-card-title>
+    <mat-card-subtitle>
+      {{ getRejectedExpenses().length }} rejected expenses
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <table *ngIf="getRejectedExpenses().length > 0" 
+           mat-table 
+           [dataSource]="getRejectedExpenses()">
+      
+      <!-- Employee Column -->
+      <ng-container matColumnDef="employeeName">
+        <th mat-header-cell *matHeaderCellDef>Employee</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.employeeName }}</td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.description }}</td>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef>Amount</th>
+        <td mat-cell *matCellDef="let expense">
+          {{ expense.amount | currency:'EUR':'symbol':'1.2-2' }}
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let expense">
+          {{ expense.date | date:'dd/MM/yyyy' }}
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let expense">
+          <span class="status-rejected">
+            <mat-icon>cancel</mat-icon>
+            Rejected
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Rejection Reason Column -->
+      <ng-container matColumnDef="rejectionReason">
+        <th mat-header-cell *matHeaderCellDef>Reason</th>
+        <td mat-cell *matCellDef="let expense">{{ expense.rejectionReason || 'Not specified' }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="rejectedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: rejectedColumns;"></tr>
+    </table>
+
+    <div *ngIf="getRejectedExpenses().length === 0" class="empty-state">
+      <mat-icon>check_circle_outline</mat-icon>
+      <p>No rejected expenses</p>
+    </div>
+  </mat-card-content>
+</mat-card>

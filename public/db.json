@@ -1,0 +1,130 @@
+{
+  "expenses": [
+    {
+      "id": "3",
+      "description": "Team Dinner",
+      "amount": 120.5,
+      "category": "Food",
+      "date": "2025-05-10T00:00:00.000Z",
+      "employeeEmail": "manager@test.com",
+      "status": "approved",
+      "receiptUrl": ""
+    },
+    {
+      "id": "4",
+      "description": "Office Supplies",
+      "amount": 45.25,
+      "category": "Supplies",
+      "date": "2025-05-15T00:00:00.000Z",
+      "employeeEmail": "employee@test.com",
+      "status": "rejected",
+      "receiptUrl": "",
+      "rejectionReason": "Personal items not covered"
+    },
+    {
+      "id": "5",
+      "description": "Invalid Expense",
+      "amount": 99.99,
+      "date": "2023-05-18",
+      "employeeEmail": "employee@test.com",
+      "status": "rejected",
+      "rejectionReason": "Not business related"
+    },
+    {
+      "id": "ad60",
+      "description": "Dinner with client",
+      "amount": 150,
+      "category": "Food",
+      "date": "2025-05-06T21:05:01.840Z",
+      "employeeEmail": "employee@test.com",
+      "status": "approved"
+    },
+    {
+      "id": "0d26",
+      "description": "Test 1",
+      "amount": 25,
+      "category": "Travel",
+      "date": "2025-05-09T13:18:25.659Z",
+      "employeeEmail": "employee@test.com",
+      "status": "approved"
+    },
+    {
+      "id": "9ea3",
+      "description": "Test 2",
+      "amount": 10,
+      "category": "Food",
+      "date": "2025-05-09T13:43:25.243Z",
+      "employeeEmail": "employee@test.com",
+      "status": "rejected"
+    },
+    {
+      "id": "7ee8",
+      "description": "test 3",
+      "amount": 40,
+      "category": "Food",
+      "date": "2025-05-09T15:29:06.816Z",
+      "employeeEmail": "employee@test.com",
+      "status": "rejected"
+    },
+    {
+      "id": "fdb0",
+      "description": "test 4",
+      "amount": 52,
+      "category": "Food",
+      "date": "2025-05-09T20:07:59.876Z",
+      "employeeEmail": "employee@test.com",
+      "status": "pending"
+    },
+    {
+      "id": "cc27",
+      "description": "test 5",
+      "amount": 70,
+      "category": "Travel",
+      "date": "2025-05-09T20:08:15.050Z",
+      "employeeEmail": "employee@test.com",
+      "status": "pending"
+    },
+    {
+      "id": "aaa2",
+      "description": "Replacement laptop bag",
+      "amount": 35,
+      "category": "Supplies",
+      "date": "2025-05-09T20:08:24.499Z",
+      "employeeEmail": "employee@test.com",
+      "status": "approved"
+    },
+    {
+      "id": "78e8",
+      "description": "hdfshstjht",
+      "amount": 15,
+      "category": "Travel",
+      "date": "2025-05-09T20:14:29.408Z",
+      "employeeEmail": "employee@test.com",
+      "status": "rejected"
+    },
+    {
+      "id": "d65d",
+      "description": "test pour Amin",
+      "amount": 520,
+      "category": "Food",
+      "date": "2025-05-15T14:28:15.849Z",
+      "employeeEmail": "employee@test.com",
+      "status": "approved"
+    }
+  ],
+  "users": [
+    {
+      "email": "employee@test.com",
+      "role": "employee",
+      "name": "John Employee",
+      "id": "fc27"
+    },
+    {
+      "email": "manager@test.com",
+      "role": "manager",
+      "name": "Jake Manager",
+      "id": "95fd"
+    }
+  ],
+  "pendingExpenses": []
+}

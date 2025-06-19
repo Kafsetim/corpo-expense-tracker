@@ -1,0 +1,4 @@
+{
+  "/api/expenses/pending": "/expenses?status=pending",
+  "/api/expenses/:id/status": "/expenses/:id"
+}

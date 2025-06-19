@@ -1,0 +1,76 @@
+<!-- src/app/modules/employee/submit-expense/submit-expense.component.html -->
+<mat-card class="expense-card">
+  <mat-card-header>
+    <mat-card-title>New Expense</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="expenseForm" (ngSubmit)="onSubmit()">
+      <!-- Description -->
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description" required>
+        <mat-error *ngIf="expenseForm.get('description')?.invalid">
+          Description is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Amount -->
+      <mat-form-field appearance="outline">
+        <mat-label>Amount (€)</mat-label>
+        <input 
+          matInput 
+          type="number" 
+          formControlName="amount" 
+          min="0,01" 
+          step="0,01"
+          required
+        >
+        <mat-error *ngIf="expenseForm.get('amount')?.invalid">
+          Valid amount required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Category -->
+      <mat-form-field appearance="outline">
+        <mat-label>Category</mat-label>
+        <mat-select formControlName="category" required>
+          <mat-option value="Travel">Travel</mat-option>
+          <mat-option value="Food">Food</mat-option>
+          <mat-option value="Supplies">Supplies</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Date -->
+      <mat-form-field appearance="outline">
+        <mat-label>Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <div class="button-group">
+        <!-- Submit Button -->
+        <button 
+          mat-raised-button 
+          color="primary" 
+          type="submit"
+          [disabled]="expenseForm.invalid"
+          style="margin-left: 10px;"
+        >
+          Submit Expense
+        </button>
+
+        <button 
+          mat-stroked-button 
+          color="primary" 
+          type="button" 
+          routerLink="/employee/expenses" 
+          class="back-button"
+        >
+          Back to list
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
