@@ -3,8 +3,14 @@
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.10.
 
 ## Development server
+!!!! The order here is important !!!!
+Firstly start a local mock api by running:
 
-To start a local development server, run:
+```bash
+npm run mock:api
+```
+
+Then start a local development server, run:
 
 ```bash
 ng serve
